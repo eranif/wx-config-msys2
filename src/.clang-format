@@ -1,0 +1,25 @@
+BasedOnStyle: WebKit
+IndentWidth: 4
+UseTab: Never
+Language : Cpp
+AlignEscapedNewlinesLeft: true
+AlignTrailingComments : true
+AllowAllParametersOfDeclarationOnNextLine : false
+AllowShortFunctionsOnASingleLine : true
+AllowShortBlocksOnASingleLine : false
+AllowShortLoopsOnASingleLine : false
+AllowShortIfStatementsOnASingleLine : false
+AlwaysBreakBeforeMultilineStrings : false
+AlwaysBreakTemplateDeclarations : false
+BinPackParameters : false
+BreakBeforeBinaryOperators : false
+BreakBeforeTernaryOperators : false
+BreakConstructorInitializersBeforeComma : true
+IndentCaseLabels : false
+IndentFunctionDeclarationAfterType : false
+SpaceBeforeAssignmentOperators : true
+SpaceBeforeParens : Never
+SpacesInParentheses : false
+BreakBeforeBraces : Linux
+ColumnLimit : 120
+PointerAlignment : Left

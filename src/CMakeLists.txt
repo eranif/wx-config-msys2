@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 3.0)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+file(GLOB sources "*.cpp")
+add_executable(wx-config-msys2 ${sources})
+set_property(TARGET wx-config-msys2 PROPERTY CXX_STANDARD 20)
+set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++ -static")
