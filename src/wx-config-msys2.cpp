@@ -204,9 +204,12 @@ public:
         }
 
         if(m_prefix.empty()) {
-            cerr << "Missing prefix. Please use environment variable WXWIN or --prefix=..." << endl;
-            print_usage();
-            exit(2);
+            m_prefix = safe_getenv("WXWIN");
+            if(m_prefix.empty()) {
+                cerr << "Missing prefix. Please use environment variable WXWIN or --prefix=..." << endl;
+                print_usage();
+                exit(2);
+            }
         }
     }
 
