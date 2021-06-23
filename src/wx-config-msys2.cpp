@@ -59,6 +59,14 @@ string find_wx_version(const string& install_dir)
     regex re("libwx_baseu\\-([\\d]+)[\\.]{1}([\\d]+)");
     size_t cur_weight = 0;
     string major, minor;
+    if(!filesystem::is_directory(install_dir)) {
+        cerr << "Directory: " << install_dir << " does not exist" << endl;
+        cerr << "Could not determine wxWidgets version installed. Please set WXVER or ensure that the --prefix "
+                "provided is correct"
+             << endl;
+        exit(4);
+    }
+
     for(const auto& entry : filesystem::directory_iterator(install_dir)) {
         auto path = entry.path().string();
         if(path.find("libwx_baseu-") != -1) {
