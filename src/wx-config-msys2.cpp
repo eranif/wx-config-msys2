@@ -19,6 +19,17 @@ string after_first(const string& str, const string& needle)
     return str.substr(where + needle.length());
 }
 
+void trim(string& str, bool from_right = true, const string& trim_chars = "\r\n\t\v ")
+{
+    if(from_right) {
+        // trim from right
+        str.erase(str.find_last_not_of(trim_chars) + 1);
+    } else {
+        // trim from left
+        str.erase(0, str.find_first_not_of(trim_chars));
+    }
+}
+
 vector<pair<string, string>> all_libs = {
     { "xrc", "wx_mswu_xrc" },
     { "webview", "wx_mswu_webview" },
@@ -254,7 +265,8 @@ int main(int argc, char** argv)
 {
     CommandLineParser parser(argc, argv);
     parser.parse_args();
-    const auto& prefix = parser.get_prefix();
+    auto prefix = parser.get_prefix();
+    trim(prefix, true, " \t\\/");
 
     // ----------------------------------------
     // append the wx version to all the libs
