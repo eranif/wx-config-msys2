@@ -36,12 +36,15 @@ You will need the followings:
 
 - `C++` compiler supporting `c++20` or later installed and configured in the system path
 - `cmake` installed and configured in the system path
+- Open `MSYS2` terminal, and run:
+
 
 ```bash
-mkdir build-debug
-cd build-debug
-cmake .. -G"MinGW Makefiles"
-make -j24
+export PATH=/mingw64/bin:$PATH
+mkdir build-release
+cd build-release
+cmake .. -G"MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release
+mingw32-make -j24
 ```
 
 # Usage

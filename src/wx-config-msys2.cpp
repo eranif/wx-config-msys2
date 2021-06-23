@@ -34,6 +34,7 @@ vector<pair<string, string>> all_libs = {
     { "xml", "wx_baseu_xml" },
     { "net", "wx_baseu_net" },
     { "base", "wx_baseu" },
+    { "adv", "wx_mswu_adv" },
 };
 
 unordered_map<string, string> libs_map;
