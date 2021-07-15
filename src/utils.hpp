@@ -53,44 +53,7 @@ protected:
     /**
      * @brief parse the libs and populate the m_libs member
      */
-    void parse_libs(const string& libs)
-    {
-        auto vlibs = split_by_comma(libs);
-        if(vlibs.empty()) {
-            vlibs.push_back("std");
-        }
-
-        // common keywords ("all" and "std")
-        auto default_libs = { "xrc", "html", "qa", "core", "xml", "net", "base" };
-        auto all_libs = { "xrc", "webview", "stc", "richtext", "ribbon", "propgrid", "aui", "gl", "html", "qa", "core",
-            "xml", "net", "base", "adv" };
-
-        // construct a map from the "all" list
-        unordered_set<string> S { all_libs.begin(), all_libs.end() };
-
-        // always make sure that "base" is included
-        auto has_base = find_if(vlibs.begin(), vlibs.end(),
-            [](const string& lib) { return lib == "base" || lib == "all" || lib == "std"; });
-        if(has_base == vlibs.end()) {
-            vlibs.push_back("base");
-        }
-
-        for(const auto& lib : vlibs) {
-            // handle special cases
-            if(lib == "std") {
-                m_libs.insert(m_libs.end(), default_libs.begin(), default_libs.end());
-            } else if(lib == "all") {
-                m_libs.reserve(all_libs.size());
-                m_libs.insert(m_libs.end(), all_libs.begin(), all_libs.end());
-            } else {
-                // search by name
-                if(S.contains(lib)) {
-                    m_libs.emplace_back(lib);
-                }
-            }
-        }
-    }
-
+    void parse_libs(const string& libs);
     void set_is_cxxflags() { m_flags |= kIsCxxFlags; }
     void set_is_rcflags() { m_flags |= kIsRcFlags; }
     void set_is_debug() { m_flags |= kIsDebug; }

@@ -31,6 +31,8 @@ void parse_build_cfg(const string& install_dir, const string& config)
     string major_version;
     string minor_version;
     string cxxflags;
+    string compiler;
+    constexpr int EXPECTED_ARGS = 5;
     while(getline(infile, line)) {
         trim(line);
         string key = before_first(line, "=");
@@ -42,15 +44,19 @@ void parse_build_cfg(const string& install_dir, const string& config)
             build_cfg.insert({ "WXVER_MINOR", value });
         } else if(key == "CXXFLAGS") {
             build_cfg.insert({ "CXXFLAGS", value });
+        } else if(key == "COMPILER") {
+            build_cfg.insert({ "COMPILER", value });
+        } else if(key == "BUILD") {
+            build_cfg.insert({ "BUILD", value });
         }
 
         // stop processing once we got everything we need
-        if(build_cfg.size() == 3) {
+        if(build_cfg.size() == EXPECTED_ARGS) {
             break;
         }
     }
 
-    if(build_cfg.size() != 3) {
+    if(build_cfg.size() != EXPECTED_ARGS) {
         cerr << "failed to parse build.cfg file: " << ss.str() << endl;
         exit(1);
     }
@@ -72,6 +78,8 @@ int main(int argc, char** argv)
 
     string version_num = build_cfg["WXVER_MAJOR"] + build_cfg["WXVER_MINOR"];
     string cxxflags = build_cfg["CXXFLAGS"];
+    string compiler = build_cfg["COMPILER"];
+    string build = build_cfg["BUILD"];
 
     const auto& libs = parser.get_libs();
     for(const auto& lib : libs) {
@@ -90,7 +98,12 @@ int main(int argc, char** argv)
         ss << "-I" << prefix << DIR_SEP << "lib" << DIR_SEP << config << " ";
         ss << "-I" << prefix << DIR_SEP << "include"
            << " ";
-        ss << "-mthreads ";
+
+        // clang does not know `-mthreads`
+        if(compiler != "clang") {
+            ss << "-mthreads ";
+        }
+
         ss << "-D_FILE_OFFSET_BITS=64 ";
         ss << "-DWXUSINGDLL ";
         ss << "-D__WXMSW__ ";
@@ -101,11 +114,14 @@ int main(int argc, char** argv)
         if(!cxxflags.empty()) {
             ss << cxxflags << " ";
         }
+        if(build == "release") {
+            ss << "-DwxDEBUG_LEVEL=0 ";
+        }
 
     } else if(parser.is_rcflags_set()) {
         // print resource compiler flags
-        ss << "--include-dir" << prefix << DIR_SEP << "lib" << DIR_SEP << config << " ";
-        ss << "--include-dir" << prefix << DIR_SEP << "include"
+        ss << "--include-dir " << prefix << DIR_SEP << "lib" << DIR_SEP << config << " ";
+        ss << "--include-dir " << prefix << DIR_SEP << "include"
            << " ";
         ss << "--define __WXMSW__ ";
         ss << "--define _UNICODE ";

@@ -57,7 +57,19 @@ void CommandLineParser::parse_args(bool require_wxcfg)
                 exit(2);
             }
         } else if(arg.starts_with("--libs")) {
-            parse_libs(after_first(arg, "="));
+            if((i + 1) < m_argc) {
+                string arg = m_argv[i + 1];
+                // ignore the next arg if it starts with `--`
+                if(!arg.starts_with("--")) {
+                    parse_libs(arg);
+                    ++i;
+                } else {
+                    parse_libs("std");
+                }
+            } else {
+                parse_libs("std");
+            }
+
         } else if(arg.starts_with("--cflags") || arg.starts_with("--cxxflags")) {
             set_is_cxxflags();
         } else if(arg.starts_with("--rcflags")) {
@@ -108,4 +120,42 @@ void CommandLineParser::print_usage()
     cout << "To print compiler flags:" << endl;
     cout << "  wx-config --cflags" << endl;
     cout << endl;
+}
+
+void CommandLineParser::parse_libs(const string& libs)
+{
+    auto vlibs = split_by_comma(libs);
+    if(vlibs.empty()) {
+        vlibs.push_back("std");
+    }
+
+    // common keywords ("all" and "std")
+    auto default_libs = { "aui", "html", "qa", "core", "net", "xrc", "xml", "base" };
+    auto all_libs = { "xrc", "webview", "stc", "richtext", "ribbon", "propgrid", "aui", "gl", "html", "qa", "core",
+        "xml", "net", "base", "adv" };
+
+    // construct a map from the "all" list
+    unordered_set<string> S { all_libs.begin(), all_libs.end() };
+
+    // always make sure that "base" is included
+    auto has_base = find_if(
+        vlibs.begin(), vlibs.end(), [](const string& lib) { return lib == "base" || lib == "all" || lib == "std"; });
+    if(has_base == vlibs.end()) {
+        vlibs.push_back("base");
+    }
+
+    for(const auto& lib : vlibs) {
+        // handle special cases
+        if(lib == "std") {
+            m_libs.insert(m_libs.end(), default_libs.begin(), default_libs.end());
+        } else if(lib == "all") {
+            m_libs.reserve(all_libs.size());
+            m_libs.insert(m_libs.end(), all_libs.begin(), all_libs.end());
+        } else {
+            // search by name
+            if(S.contains(lib)) {
+                m_libs.emplace_back(lib);
+            }
+        }
+    }
 }
