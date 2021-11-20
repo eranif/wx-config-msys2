@@ -124,7 +124,7 @@ int main(int argc, char** argv)
         // print linker flags
         const auto& libs = parser.get_libs();
 
-        ss << "-L" << prefix << "/lib -pipe -Wl,--subsystem,windows -mwindows ";
+        ss << "-L" << prefix << "/lib -pipe ";
         for(const auto& lib : libs) {
             ss << "-l" << libs_map[lib] << " ";
         }

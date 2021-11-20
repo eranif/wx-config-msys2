@@ -131,7 +131,7 @@ int main(int argc, char** argv)
         const auto& libs = parser.get_libs();
 
         ss << "-L" << prefix << DIR_SEP << "lib" << DIR_SEP << before_first(config, DIR_SEP_STR) << " "
-           << "-pipe -Wl,--subsystem,windows -mwindows ";
+           << "-pipe ";
 
         // translate lib name to file name
         for(const auto& lib : libs) {
