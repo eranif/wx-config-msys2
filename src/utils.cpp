@@ -129,10 +129,32 @@ void CommandLineParser::parse_libs(const string& libs)
         vlibs.push_back("std");
     }
 
-    // common keywords ("all" and "std")
-    auto default_libs = { "aui", "html", "qa", "core", "net", "xrc", "xml", "base" };
-    auto all_libs = { "xrc", "webview", "stc", "richtext", "ribbon", "propgrid", "aui", "gl", "html", "qa", "core",
-        "xml", "net", "base", "adv" };
+    // --libs std
+    // -lwx_mswu_xrc-3.0 -lwx_mswu_webview-3.0 -lwx_mswu_html-3.0 -lwx_mswu_qa-3.0 -lwx_mswu_adv-3.0 -lwx_mswu_core-3.0
+    // -lwx_baseu_xml-3.0 -lwx_baseu_net-3.0 -lwx_baseu-3.0
+    auto default_libs = { "xrc", "webview", "html", "qa", "adv", "core", "xml", "net", "base" };
+
+    // --libs all
+    // -lwx_mswu_xrc-3.0 -lwx_mswu_webview-3.0 -lwx_mswu_stc-3.0 -lwx_mswu_richtext-3.0 -lwx_mswu_ribbon-3.0
+    // -lwx_mswu_propgrid-3.0 -lwx_mswu_aui-3.0 -lwx_mswu_gl-3.0 -lwx_mswu_html-3.0 -lwx_mswu_qa-3.0 -lwx_mswu_adv-3.0
+    // -lwx_mswu_core-3.0 -lwx_baseu_xml-3.0 -lwx_baseu_net-3.0 -lwx_baseu-3.0
+    auto all_libs = {
+        "xrc",
+        "webview",
+        "stc",
+        "richtext",
+        "ribbon",
+        "propgrid",
+        "aui",
+        "gl",
+        "html",
+        "qa",
+        "adv",
+        "core",
+        "xml",
+        "net",
+        "base",
+    };
 
     // construct a map from the "all" list
     unordered_set<string> S { all_libs.begin(), all_libs.end() };
