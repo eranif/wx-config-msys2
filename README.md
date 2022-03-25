@@ -50,21 +50,43 @@ mingw32-make -j24
 # Usage
 ---
 
-To generate link line:
+## Preface
+Notice that you have 2 different `wx-config` tools:
+
+- `wx-config-msys2.exe`
+- `wx-config.exe`
+
+### Using `wx-config.exe`
+
+Use this executable when you are building your application against wxWidgets built locally
+as [described here][1]
+
+### Using `wx-config-msys2.exe`
+
+Use this executable when you are building your application against wxWidgets installed using `pacman` on `MSYS2` environment:
+
+```bash
+pacman -S mingw-w64-x86_64-wxWidgets
+```
+
+## Producing link line
 
 ```batch
 wx-config-msys2 --libs --prefix=C:\msys2\mingw64
 ```
 
-To generate compile line:
+## Producing compiler flags
 
 ```batch
 wx-config-msys2 --cflags --prefix=C:\msys2\mingw64
 ```
 
+## Other options
 Compile with debug:
 
 ```batch
 wx-config-msys2 --cflags --prefix=C:\msys2\mingw64 --debug
 ```
 
+
+[1]: https://docs.codelite.org/build/build_wx_widgets/#windows
