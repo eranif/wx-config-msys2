@@ -42,7 +42,7 @@ string safe_getenv(const string& name)
 void CommandLineParser::parse_args(bool require_wxcfg)
 {
     reset();
-    for(int i = 0; i < m_argc; ++i) {
+    for(int i = 1; i < m_argc; ++i) {
         string arg = m_argv[i];
         if(arg.starts_with("--prefix")) {
             set_prefix(after_first(arg, "="));
