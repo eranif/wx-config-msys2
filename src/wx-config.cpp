@@ -12,6 +12,11 @@ namespace
 {
 unordered_map<string, string> build_cfg;
 unordered_map<string, string> libs_map;
+
+/**
+ * @brief are we using monolithic build of wxWidgets?
+ */
+bool is_monolithic() { return build_cfg.count("MONOLITHIC") == 1 && build_cfg["MONOLITHIC"] == "1"; }
 }
 
 void parse_build_cfg(const string& install_dir, const string& config)
@@ -26,37 +31,23 @@ void parse_build_cfg(const string& install_dir, const string& config)
     }
 
     ifstream infile(ss.str());
-    string line;
+    unordered_set<string> keys = { "WXVER_MAJOR", "WXVER_MINOR", "WXVER_RELEASE", "CXXFLAGS", "CXXFLAGS", "BUILD",
+        "MONOLITHIC", "VENDOR", "COMPILER" };
 
-    string major_version;
-    string minor_version;
-    string cxxflags;
-    string compiler;
-    constexpr int EXPECTED_ARGS = 5;
-    while(getline(infile, line)) {
+    string line;
+    while(getline(infile, line) && !keys.empty()) {
         trim(line);
         string key = before_first(line, "=");
         string value = after_first(line, "=");
 
-        if(key == "WXVER_MAJOR") {
-            build_cfg.insert({ "WXVER_MAJOR", value });
-        } else if(key == "WXVER_MINOR") {
-            build_cfg.insert({ "WXVER_MINOR", value });
-        } else if(key == "CXXFLAGS") {
-            build_cfg.insert({ "CXXFLAGS", value });
-        } else if(key == "COMPILER") {
-            build_cfg.insert({ "COMPILER", value });
-        } else if(key == "BUILD") {
-            build_cfg.insert({ "BUILD", value });
-        }
-
-        // stop processing once we got everything we need
-        if(build_cfg.size() == EXPECTED_ARGS) {
-            break;
+        if(keys.count(key)) {
+            keys.erase(key);
+            build_cfg.insert({ key, value });
         }
     }
 
-    if(build_cfg.size() != EXPECTED_ARGS) {
+    if(!keys.empty()) {
+        // not all keys were processed
         cerr << "failed to parse build.cfg file: " << ss.str() << endl;
         exit(1);
     }
@@ -80,6 +71,7 @@ int main(int argc, char** argv)
     string cxxflags = build_cfg["CXXFLAGS"];
     string compiler = build_cfg["COMPILER"];
     string build = build_cfg["BUILD"];
+    string vendor = build_cfg["VENDOR"];
 
     const auto& libs = parser.get_libs();
     for(const auto& lib : libs) {
@@ -128,15 +120,22 @@ int main(int argc, char** argv)
         ss << "--define WXUSINGDLL ";
     } else {
         // print linker flags
-        const auto& libs = parser.get_libs();
-
         ss << "-L" << prefix << DIR_SEP << "lib" << DIR_SEP << before_first(config, DIR_SEP_STR) << " "
            << "-pipe ";
 
-        // translate lib name to file name
-        for(const auto& lib : libs) {
-            if(libs_map.contains(lib)) {
-                ss << "-l" << libs_map[lib] << " ";
+        if(is_monolithic()) {
+            // monolithic lib
+            stringstream libname;
+            libname << "wxmsw" << build_cfg["WXVER_MAJOR"] << build_cfg["WXVER_MINOR"] << build_cfg["WXVER_RELEASE"]
+                    << "u_" << build_cfg["COMPILER"] << "_" << build_cfg["VENDOR"] << ".dll";
+            ss << "-l" << libname.str() << " ";
+        } else {
+            // translate lib name to file name
+            const auto& libs = parser.get_libs();
+            for(const auto& lib : libs) {
+                if(libs_map.count(lib)) {
+                    ss << "-l" << libs_map[lib] << " ";
+                }
             }
         }
     }
