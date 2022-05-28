@@ -126,8 +126,8 @@ int main(int argc, char** argv)
         if(is_monolithic()) {
             // monolithic lib
             stringstream libname;
-            libname << "wxmsw" << build_cfg["WXVER_MAJOR"] << build_cfg["WXVER_MINOR"] << build_cfg["WXVER_RELEASE"]
-                    << "u_" << build_cfg["COMPILER"] << "_" << build_cfg["VENDOR"] << ".dll";
+            // example: libwxmsw31u.a
+            libname << "wxmsw" << build_cfg["WXVER_MAJOR"] << build_cfg["WXVER_MINOR"] << "u";
             ss << "-l" << libname.str() << " ";
         } else {
             // translate lib name to file name
