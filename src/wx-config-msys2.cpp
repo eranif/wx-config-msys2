@@ -85,7 +85,7 @@ int main(int argc, char** argv)
     auto prefix = parser.get_prefix();
     trim(prefix, true, " \t\\/");
     replace(prefix.begin(), prefix.end(), '\\', DIR_SEP);
-
+    
     // ----------------------------------------
     // append the wx version to all the libs
     // ----------------------------------------
@@ -104,6 +104,7 @@ int main(int argc, char** argv)
         // print compile flags
         ss << "-I" << prefix << "/lib/wx/include/msw-unicode" << wx_ver << " ";
         ss << "-I" << prefix << "/include/wx" << wx_ver << " ";
+        ss << "-mthreads ";
         ss << "-D_FILE_OFFSET_BITS=64 ";
         ss << "-DWXUSINGDLL ";
         ss << "-D__WXMSW__ ";
