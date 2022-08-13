@@ -94,6 +94,12 @@ int main(int argc, char** argv)
         // clang does not know `-mthreads`
         if(compiler != "clang") {
             ss << "-mthreads ";
+        } else {
+            // when compiled with clang, wxWidgets generates tones of these errors
+            // lets disable them...
+            ss << "-Wno-ignored-attributes ";
+            ss << "-Wno-unknown-pragmas ";
+            ss << "-Wno-unused-private-field ";
         }
 
         ss << "-D_FILE_OFFSET_BITS=64 ";
