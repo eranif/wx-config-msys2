@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeLite_Workspace Name="wx-config-Win32" Database="" Version="10000">
+  <Project Name="wx-config-msys2" Path="wx-config-msys2.project" Active="No"/>
+  <Project Name="utilslib" Path="utilslib.project" Active="No"/>
+  <Project Name="wx-config" Path="wx-config.project" Active="Yes"/>
+  <BuildMatrix>
+    <WorkspaceConfiguration Name="Debug">
+      <Environment/>
+      <Project Name="wx-config-msys2" ConfigName="Debug"/>
+      <Project Name="utilslib" ConfigName="Debug"/>
+      <Project Name="wx-config" ConfigName="Debug"/>
+    </WorkspaceConfiguration>
+    <WorkspaceConfiguration Name="Release">
+      <Environment/>
+      <Project Name="wx-config-msys2" ConfigName="Release"/>
+      <Project Name="utilslib" ConfigName="Release"/>
+      <Project Name="wx-config" ConfigName="Release"/>
+    </WorkspaceConfiguration>
+  </BuildMatrix>
+</CodeLite_Workspace>
