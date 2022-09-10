@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.0)
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+message(STATUS "CMAKE_CURRENT_LIST_DIR=${CMAKE_CURRENT_LIST_DIR}")
 add_library(utilslib STATIC "${CMAKE_CURRENT_LIST_DIR}/utils.cpp")
 add_executable(wx-config-msys2 "${CMAKE_CURRENT_LIST_DIR}/wx-config-msys2.cpp")
 add_executable(wx-config "${CMAKE_CURRENT_LIST_DIR}/wx-config.cpp")
@@ -11,5 +11,3 @@ set_property(TARGET utilslib PROPERTY CXX_STANDARD 20)
 
 target_link_libraries(wx-config utilslib)
 target_link_libraries(wx-config-msys2 utilslib)
-
-#set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++ -static")

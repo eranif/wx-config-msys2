@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.0)
 project(wx-config-msys2)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_USE_RELATIVE_PATHS FALSE)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -gdwarf-2")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -g")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_LIST_DIR}/bin")
-add_subdirectory(src)
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/src)
