@@ -27,6 +27,7 @@ vector<pair<string, string>> all_libs = {
     { "net", "wx_baseu_net" },
     { "base", "wx_baseu" },
     { "adv", "wx_mswu_adv" },
+    { "media", "wx_mswu_media" },
 };
 
 unordered_map<string, string> libs_map;
@@ -85,7 +86,7 @@ int main(int argc, char** argv)
     auto prefix = parser.get_prefix();
     trim(prefix, true, " \t\\/");
     replace(prefix.begin(), prefix.end(), '\\', DIR_SEP);
-    
+
     // ----------------------------------------
     // append the wx version to all the libs
     // ----------------------------------------

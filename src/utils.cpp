@@ -154,6 +154,7 @@ void CommandLineParser::parse_libs(const string& libs)
         "xml",
         "net",
         "base",
+        "media",
     };
 
     // construct a map from the "all" list
