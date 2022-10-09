@@ -73,6 +73,10 @@ int main(int argc, char** argv)
     string build = build_cfg["BUILD"];
     string vendor = build_cfg["VENDOR"];
 
+    string debug_lib_suffix;
+    if(build == "debug")
+        debug_lib_suffix = "d";
+
     const auto& libs = parser.get_libs();
     for(const auto& lib : libs) {
         if(lib == "base") {
@@ -133,14 +137,14 @@ int main(int argc, char** argv)
             // monolithic lib
             stringstream libname;
             // example: libwxmsw31u.a
-            libname << "wxmsw" << build_cfg["WXVER_MAJOR"] << build_cfg["WXVER_MINOR"] << "u";
+            libname << "wxmsw" << build_cfg["WXVER_MAJOR"] << build_cfg["WXVER_MINOR"] << "u" << debug_lib_suffix;
             ss << "-l" << libname.str() << " ";
         } else {
             // translate lib name to file name
             const auto& libs = parser.get_libs();
             for(const auto& lib : libs) {
                 if(libs_map.count(lib)) {
-                    ss << "-l" << libs_map[lib] << " ";
+                    ss << "-l" << libs_map[lib] << debug_lib_suffix << " ";
                 }
             }
         }
