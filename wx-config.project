@@ -10,7 +10,7 @@
   <VirtualDirectory Name="src">
     <File Name="src/wx-config.cpp"/>
   </VirtualDirectory>
-  <Dependencies Name="Release">
+  <Dependencies Name="Debug">
     <Project Name="utilslib"/>
   </Dependencies>
   <Settings Type="Executable">
@@ -24,7 +24,7 @@
       <ResourceCompiler Options=""/>
     </GlobalSettings>
     <Configuration Name="Debug" CompilerType="CLANG 64bit ( MSYS2 64bit, clang64 )" DebuggerType="lldb-vscode" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
-      <Compiler Options="-O0;-gdwarf-2;-std=gnu++20;-Wall;-fstandalone-debug" C_Options="" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="1">
+      <Compiler Options="-O0;-gdwarf-4;-std=gnu++20;-Wall;-fstandalone-debug" C_Options="" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="1">
         <IncludePath Value="."/>
       </Compiler>
       <Linker Options="" Required="yes">
@@ -32,7 +32,7 @@
         <Library Value="utilslib"/>
       </Linker>
       <ResourceCompiler Options="" Required="no"/>
-      <General OutputFile="$(ProjectName).exe" IntermediateDirectory="" Command="$(WorkspacePath)/build-$(WorkspaceConfiguration)/bin/$(OutputFile)" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(WorkspacePath)/build-$(WorkspaceConfiguration)/lib" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <General OutputFile="$(ProjectName).exe" IntermediateDirectory="" Command="$(WorkspacePath)/build-$(WorkspaceConfiguration)/bin/$(OutputFile)" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
       <BuildSystem Name="CodeLite Makefile Generator"/>
       <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
         <![CDATA[]]>
@@ -109,7 +109,8 @@
       </Completion>
     </Configuration>
   </Settings>
-  <Dependencies Name="Debug">
+  <Dependencies Name="Release">
     <Project Name="utilslib"/>
+    <Project Name="wx-config-msys2"/>
   </Dependencies>
 </CodeLite_Project>
