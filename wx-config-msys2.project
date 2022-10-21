@@ -13,6 +13,9 @@
   <Dependencies Name="Debug">
     <Project Name="utilslib"/>
   </Dependencies>
+  <Dependencies Name="Release">
+    <Project Name="utilslib"/>
+  </Dependencies>
   <Settings Type="Executable">
     <GlobalSettings>
       <Compiler Options="" C_Options="" Assembler="">
@@ -23,7 +26,7 @@
       </Linker>
       <ResourceCompiler Options=""/>
     </GlobalSettings>
-    <Configuration Name="Debug" CompilerType="CLANG 64bit ( MSYS2 64bit, clang64 )" DebuggerType="lldb-vscode" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+    <Configuration Name="Debug" CompilerType="clang64/clang-15.0.2" DebuggerType="lldb-vscode" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
       <Compiler Options="-O0;-gdwarf-2;-std=gnu++20;-Wall;-fstandalone-debug" C_Options="-gdwarf-2;-fstandalone-debug;-O0;-Wall" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="1">
         <IncludePath Value="."/>
       </Compiler>
@@ -65,7 +68,7 @@
         <SearchPaths/>
       </Completion>
     </Configuration>
-    <Configuration Name="Release" CompilerType="CLANG 64bit ( MSYS2 64bit, clang64 )" DebuggerType="lldb-vscode" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+    <Configuration Name="Release" CompilerType="clang64/clang-15.0.2" DebuggerType="lldb-vscode" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
       <Compiler Options="-std=gnu++20;-O2;-Wall" C_Options="-std=gnu++20;-O2;-Wall" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="1">
         <IncludePath Value="."/>
         <Preprocessor Value="NDEBUG"/>
@@ -109,7 +112,4 @@
       </Completion>
     </Configuration>
   </Settings>
-  <Dependencies Name="Release">
-    <Project Name="utilslib"/>
-  </Dependencies>
 </CodeLite_Project>
