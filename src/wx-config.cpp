@@ -77,14 +77,19 @@ int main(int argc, char** argv)
     if(build == "debug")
         debug_lib_suffix = "d";
 
+    // for non monolithic libs, the release lib name could be: wxmsw32u_base or wxmsw32u_xml
+    // the debug lib name could be: wxmsw32ud_base or wxmsw32ud_xml
+    string unicode_suffix = "u";
+    unicode_suffix += debug_lib_suffix;
+
     const auto& libs = parser.get_libs();
     for(const auto& lib : libs) {
         if(lib == "base") {
-            libs_map.insert({ lib, "wx" + lib + version_num + "u" });
+            libs_map.insert({ lib, "wx" + lib + version_num + unicode_suffix });
         } else if(lib == "net" || lib == "xml") {
-            libs_map.insert({ lib, "wxbase" + version_num + "u" + "_" + lib });
+            libs_map.insert({ lib, "wxbase" + version_num + unicode_suffix + "_" + lib });
         } else {
-            libs_map.insert({ lib, "wxmsw" + version_num + "u" + "_" + lib });
+            libs_map.insert({ lib, "wxmsw" + version_num + unicode_suffix + "_" + lib });
         }
     }
 
@@ -136,15 +141,15 @@ int main(int argc, char** argv)
         if(is_monolithic()) {
             // monolithic lib
             stringstream libname;
-            // example: libwxmsw31u.a
-            libname << "wxmsw" << build_cfg["WXVER_MAJOR"] << build_cfg["WXVER_MINOR"] << "u" << debug_lib_suffix;
+            // example: libwxmsw31u.a or libwxmsw31ud.a
+            libname << "wxmsw" << build_cfg["WXVER_MAJOR"] << build_cfg["WXVER_MINOR"] << unicode_suffix;
             ss << "-l" << libname.str() << " ";
         } else {
             // translate lib name to file name
             const auto& libs = parser.get_libs();
             for(const auto& lib : libs) {
                 if(libs_map.count(lib)) {
-                    ss << "-l" << libs_map[lib] << debug_lib_suffix << " ";
+                    ss << "-l" << libs_map[lib] << " ";
                 }
             }
         }
