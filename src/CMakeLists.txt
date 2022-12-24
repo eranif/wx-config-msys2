@@ -11,3 +11,15 @@ set_property(TARGET utilslib PROPERTY CXX_STANDARD 20)
 
 target_link_libraries(wx-config utilslib)
 target_link_libraries(wx-config-msys2 utilslib)
+
+if (MINGW)
+    add_custom_command(TARGET wx-config
+                       POST_BUILD
+                       COMMAND cp ${CMAKE_SOURCE_DIR}/bin/wx-config.exe /usr/bin
+                       COMMENT "Installing wx-config.exe")
+
+    add_custom_command(TARGET wx-config-msys2
+                       POST_BUILD
+                       COMMAND cp ${CMAKE_SOURCE_DIR}/bin/wx-config-msys2 /usr/bin
+                       COMMENT "Installing wx-config-msys2.exe")
+endif()
