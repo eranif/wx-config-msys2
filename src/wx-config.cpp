@@ -135,7 +135,10 @@ void add_libs(const CommandLineParser& parser, const string& config, const strin
     }
 
     if(parser.is_create_cmake_file()) {
-        out_stream << "set(wxWidgets_LIBRARIES \"" << ss.str() << "\")\n";
+        string libs = ss.str();
+        trim(libs);
+
+        out_stream << "set(wxWidgets_LIBRARIES \"" << libs << "\")\n";
     } else if(parser.is_cxxflags_set()) {
         out_stream << ss.str();
     }
