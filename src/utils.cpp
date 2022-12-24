@@ -76,6 +76,8 @@ void CommandLineParser::parse_args(bool require_wxcfg)
             set_is_rcflags();
         } else if(arg.starts_with("--debug")) {
             set_is_debug();
+        } else if(arg.starts_with("--cmake")) {
+            set_is_cmake();
         }
     }
 
@@ -109,6 +111,7 @@ void CommandLineParser::print_usage()
     cout << "wx-config [--prefix=<install_dir>] [--wxcfg=config-dir] [--libs|--cflags|--cxxflags|--rcflags "
             "[...]] [--debug]"
          << endl;
+    cout << "wx-config --cmake [--prefix=<install_dir>] [--wxcfg=config-dir]" << endl;
     cout << "Example usage:" << endl;
     cout << endl;
     cout << "To print the default list of link flags + libraries:" << endl;

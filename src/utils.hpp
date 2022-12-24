@@ -36,6 +36,7 @@ protected:
         kIsRcFlags = (1 << 0),
         kIsCxxFlags = (1 << 1),
         kIsDebug = (1 << 2),
+        kCMakeIncludeFile = (1 << 3),
     };
 
 protected:
@@ -57,6 +58,7 @@ protected:
     void set_is_cxxflags() { m_flags |= kIsCxxFlags; }
     void set_is_rcflags() { m_flags |= kIsRcFlags; }
     void set_is_debug() { m_flags |= kIsDebug; }
+    void set_is_cmake() { m_flags |= kCMakeIncludeFile; }
 
     /**
      * @brief split input string by command and return vector of the results
@@ -92,6 +94,7 @@ public:
     bool is_rcflags_set() const { return m_flags & kIsRcFlags; }
     bool is_cxxflags_set() const { return m_flags & kIsCxxFlags; }
     bool is_debug() const { return m_flags & kIsDebug; }
+    bool is_create_cmake_file() const { return m_flags & kCMakeIncludeFile; }
 };
 
 #endif // UTILS_HPP
