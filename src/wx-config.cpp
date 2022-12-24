@@ -139,7 +139,7 @@ void add_libs(const CommandLineParser& parser, const string& config, const strin
         trim(libs);
 
         out_stream << "set(wxWidgets_LIBRARIES \"" << libs << "\")\n";
-    } else if(parser.is_cxxflags_set()) {
+    } else {
         out_stream << ss.str();
     }
 }
