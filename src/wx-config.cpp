@@ -124,6 +124,15 @@ void add_libs(const CommandLineParser& parser, const string& config, const strin
         // example: libwxmsw31u.a or libwxmsw31ud.a
         libname << "wxmsw" << build_cfg["WXVER_MAJOR"] << build_cfg["WXVER_MINOR"] << unicode_suffix;
         ss << "-l" << libname.str() << " ";
+        // in the monolithic mode, there are usually two lib files, the common is libwxmsw32u.a, the other file is libwxmsw32u_gl.a
+        // this means the wx's opengl support library is always a seperate library, so check to see whether the "gl" option is added
+        // finally, we got the linker option line such as: "-lwxmsw32u -lwxmsw32u_gl"
+        const auto& libs = parser.get_libs();
+        for(const auto& lib : libs) {
+            if(lib == "gl") {
+                ss << "-l" << libname.str() << "_gl" << " ";
+            } 
+        }
     } else {
         // translate lib name to file name
         const auto& libs = parser.get_libs();
