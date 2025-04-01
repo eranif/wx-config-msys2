@@ -1,0 +1,50 @@
+name: msys2
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '**'
+      - '!.github/**'
+      - '.github/workflows/msys2.yml'
+  pull_request:
+    paths:
+      - '**'
+      - '!.github/**'
+      - '.github/workflows/msys2.yml'
+
+jobs:
+  msys2:
+    runs-on: windows-latest
+
+    steps:
+    - uses: msys2/setup-msys2@v2
+      with:
+        msystem: clang64
+        update: true
+        install: >-
+          mingw-w64-clang-x86_64-cmake
+          mingw-w64-clang-x86_64-make
+          mingw-w64-clang-x86_64-clang
+          mingw-w64-clang-x86_64-clang-tools-extra
+
+    # wx-config-msys2
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: build and install wx-config-msys2
+      shell: msys2 {0}
+      run: |
+        mkdir build-release
+        cd build-release
+        cmake .. -G"MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="$HOME/root"
+        mingw32-make -j$(nproc) install
+        #add $HOME/root/bin to PATH
+
+    # Upload artefact
+    - name: artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: wx-config-msys2
+        path: |
+          bin/**.*
