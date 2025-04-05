@@ -95,6 +95,13 @@ public:
     bool is_cxxflags_set() const { return m_flags & kIsCxxFlags; }
     bool is_debug() const { return m_flags & kIsDebug; }
     bool is_create_cmake_file() const { return m_flags & kCMakeIncludeFile; }
+
+    bool contains_lib(const string& lib) const
+    {
+        return std::find_if(m_libs.begin(), m_libs.end(),
+                   [&lib](const string& libname) -> bool { return libname == lib; }) != m_libs.end();
+    }
+
 };
 
 #endif // UTILS_HPP
