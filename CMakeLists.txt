@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.10)
 project(wx-config-msys2)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_USE_RELATIVE_PATHS FALSE)
